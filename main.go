@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 )
 
 var dir string
@@ -21,15 +20,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	absDir, err := filepath.Abs(dir)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fs := http.FileServer(http.Dir(absDir))
+	fs := http.FileServer(http.Dir(dir))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fs.ServeHTTP(w, r)
 	})
-	log.Printf("伺服器已啟動, 靜態資源目錄: %s, 访问路径: http://127.0.0.1:%d", absDir, port)
+	log.Printf("伺服器已啟動, 端口:%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
