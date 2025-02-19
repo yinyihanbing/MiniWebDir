@@ -13,7 +13,7 @@ var port int
 
 func main() {
 	flag.StringVar(&dir, "dir", "./", "指定靜態資源目錄")
-	flag.IntVar(&port, "port", 8080, "指定伺服器監聽的端口號")
+	flag.IntVar(&port, "port", 8181, "指定伺服器監聽的端口號")
 	flag.Parse()
 
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
