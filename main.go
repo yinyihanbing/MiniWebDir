@@ -12,7 +12,7 @@ var dir string
 var port int
 
 func main() {
-	flag.StringVar(&dir, "dir", "www", "指定靜態資源目錄")
+	flag.StringVar(&dir, "dir", "data/www", "指定靜態資源目錄")
 	flag.IntVar(&port, "port", 8181, "指定伺服器監聽的端口號")
 	flag.Parse()
 
@@ -22,7 +22,7 @@ func main() {
 		}
 	}
 
-	logDir := "log"
+	logDir := "data/log"
 	if _, err := os.Stat(logDir); os.IsNotExist(err) {
 		if err := os.Mkdir(logDir, os.ModePerm); err != nil {
 			log.Fatal(err)
