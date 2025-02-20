@@ -16,20 +16,19 @@ func main() {
 	flag.IntVar(&port, "port", 8181, "指定伺服器監聽的端口號")
 	flag.Parse()
 
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		if err := os.Mkdir(dir, os.ModePerm); err != nil {
-			log.Fatal(err)
+	createDirIfNotExist := func(path string) {
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			if err := os.Mkdir(path, os.ModePerm); err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 
-	logDir := "data/log"
-	if _, err := os.Stat(logDir); os.IsNotExist(err) {
-		if err := os.Mkdir(logDir, os.ModePerm); err != nil {
-			log.Fatal(err)
-		}
-	}
+	createDirIfNotExist("data")
+	createDirIfNotExist(dir)
+	createDirIfNotExist("data/log")
 
-	logFile, err := os.OpenFile(fmt.Sprintf("%s/server.log", logDir), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	logFile, err := os.OpenFile("data/log/server.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
