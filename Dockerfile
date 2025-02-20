@@ -21,8 +21,6 @@ RUN apk --no-cache add ca-certificates
 COPY --from=builder /miniwebdir/app /miniwebdir/app
 #容器启动后执行的命令, 运行可执行文件app
 ENTRYPOINT /miniwebdir/app
-#命令携带的参数
-CMD ["--dir", "./", "--port", "8181"]
 #镜像标签及版本号
 LABEL Name=miniwebdir Version=0.0.1
 #导出的端口号
