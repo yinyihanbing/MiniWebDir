@@ -17,7 +17,9 @@ func main() {
 	flag.Parse()
 
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		log.Fatal(err)
+		if err := os.Mkdir(dir, os.ModePerm); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	fs := http.FileServer(http.Dir(dir))
