@@ -22,6 +22,20 @@ func main() {
 		}
 	}
 
+	logDir := "log"
+	if _, err := os.Stat(logDir); os.IsNotExist(err) {
+		if err := os.Mkdir(logDir, os.ModePerm); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	logFile, err := os.OpenFile(fmt.Sprintf("%s/server.log", logDir), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer logFile.Close()
+	log.SetOutput(logFile)
+
 	fs := http.FileServer(http.Dir(dir))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Cache-Control", "no-store")
