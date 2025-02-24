@@ -26,3 +26,4 @@ cd ../dok
 
 docker-compose up -d ggweb
 
+docker-compose ps -a
