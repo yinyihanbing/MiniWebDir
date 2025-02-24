@@ -12,7 +12,7 @@ cd ../ggweb
 
 git pull
 
-docker builder prune
+docker builder prune -f
 
 docker build --no-cache -t ggweb .
 
