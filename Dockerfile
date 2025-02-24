@@ -23,7 +23,7 @@ COPY --from=builder /miniwebdir/app /miniwebdir/app
 COPY www /miniwebdir/www
 
 #容器启动后执行的命令, 运行可执行文件app
-ENTRYPOINT /miniwebdir/app --dir=/miniwebdir/www
+ENTRYPOINT /miniwebdir/app --wwwDir=/miniwebdir/www
 #镜像标签及版本号
 LABEL Name=miniwebdir Version=0.0.1
 #导出的端口号
