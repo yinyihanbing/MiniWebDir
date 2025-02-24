@@ -2,6 +2,14 @@
 
 cd "$(dirname "$0")"
 
+cd ../dok
+
+docker-compose stop ggweb
+
+docker-compose rm ggweb
+
+cd ../ggweb
+
 git pull
 
 docker builder prune
