@@ -19,8 +19,11 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 #从上个阶段临时构建的镜像中拷贝文件或目录
 COPY --from=builder /miniwebdir/app /miniwebdir/app
+#拷贝资源目录
+COPY www /miniwebdir/www
+
 #容器启动后执行的命令, 运行可执行文件app
-ENTRYPOINT /miniwebdir/app
+ENTRYPOINT /miniwebdir/app --dir=/miniwebdir/www
 #镜像标签及版本号
 LABEL Name=miniwebdir Version=0.0.1
 #导出的端口号

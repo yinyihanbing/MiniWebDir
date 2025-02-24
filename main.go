@@ -3,16 +3,20 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"path"
 )
 
-var dir string
+var logDir string
+var wwwDir string
 var port int
 
 func main() {
-	flag.StringVar(&dir, "dir", "data/www", "指定靜態資源目錄")
+	flag.StringVar(&logDir, "logDir", "logs", "日志目錄")
+	flag.StringVar(&wwwDir, "wwwDir", "www", "指定靜態資源目錄")
 	flag.IntVar(&port, "port", 8181, "指定伺服器監聽的端口號")
 	flag.Parse()
 
@@ -24,18 +28,19 @@ func main() {
 		}
 	}
 
-	createDirIfNotExist("data")
-	createDirIfNotExist(dir)
-	createDirIfNotExist("data/log")
+	createDirIfNotExist(logDir)
+	createDirIfNotExist(wwwDir)
 
-	logFile, err := os.OpenFile("data/log/server.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	logFile, err := os.OpenFile(path.Join(logDir, "server.log"), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer logFile.Close()
-	log.SetOutput(logFile)
 
-	fs := http.FileServer(http.Dir(dir))
+	multiWriter := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(multiWriter)
+
+	fs := http.FileServer(http.Dir(wwwDir))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Cache-Control", "no-store")
 		fs.ServeHTTP(w, r)
