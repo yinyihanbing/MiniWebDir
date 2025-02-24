@@ -1,7 +1,7 @@
 # ggweb
 
 ## 下载源码
-git clone -b ggweb https://github.com/yinyihanbing/MiniWebDir.git
+git clone -b ggweb https://github.com/yinyihanbing/MiniWebDir.git ggweb
 
 ## 這個命令會移除所有未使用的建置快取資料
 docker builder prune
