@@ -6,7 +6,7 @@ cd ../dok
 
 docker-compose stop ggweb
 
-docker-compose rm ggweb
+docker-compose rm -f ggweb
 
 cd ../ggweb
 
