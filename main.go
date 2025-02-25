@@ -15,7 +15,7 @@ var wwwDir string
 var port int
 
 func main() {
-	flag.StringVar(&logDir, "logDir", "logs", "日志目錄")
+	flag.StringVar(&logDir, "logDir", "logs", "日志目錄1")
 	flag.StringVar(&wwwDir, "wwwDir", "www", "指定靜態資源目錄")
 	flag.IntVar(&port, "port", 8181, "指定伺服器監聽的端口號")
 	flag.Parse()
