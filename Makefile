@@ -67,10 +67,14 @@ install-service:
 
 uninstall-service:
 		@echo "Uninstalling systemd service for $(PROJECT_NAME)..."
-		@systemctl stop $(PROJECT_NAME)
-		@systemctl disable $(PROJECT_NAME)
-		@rm $(SERVICE_FILE)
-		@systemctl daemon-reload
+		@if systemctl list-units --full -all | grep -Fq $(PROJECT_NAME).service; then \
+				systemctl stop $(PROJECT_NAME); \
+				systemctl disable $(PROJECT_NAME); \
+				rm $(SERVICE_FILE); \
+				systemctl daemon-reload; \
+		else \
+				echo "$(PROJECT_NAME) service not found."; \
+		fi
 
 run: install-service
 
