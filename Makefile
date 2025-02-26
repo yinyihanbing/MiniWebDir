@@ -16,7 +16,7 @@ init:
 		@echo "Initializing project..."
 		@$(GO) mod tidy
 
-build: init build-linux
+build: clean init build-linux
 
 build-linux:
 		@echo "Building $(PROJECT_NAME) for Linux..."
@@ -42,6 +42,8 @@ coverage:
 clean:
 		@echo "Cleaning up..."
 		@rm -rf $(BUILD_DIR) $(COVERAGE_FILE)
+
+run: run-linux
 
 run-linux: build-linux
 		@echo "Running $(PROJECT_NAME)..."
