@@ -12,7 +12,7 @@ SRC_DIR := .
 
 COVERAGE_FILE := coverage.out
 
-PID_FILE := $(BUILD_DIR)/$(PROJECT_NAME).pid # 新增 PID 檔案路徑
+PID_FILE := $(BUILD_DIR)/$(PROJECT_NAME).pid
 
 init:
 		@echo "Initializing project..."
@@ -49,7 +49,7 @@ run: run-linux
 
 run-linux: build-linux
 		@echo "Running $(PROJECT_NAME) in the background..."
-		@cd $(BUILD_DIR) && ./$(PROJECT_NAME) & echo $$! > $(PID_FILE)
+		@cd $(BUILD_DIR) && nohup ./$(PROJECT_NAME) & echo $$! > $(PID_FILE)
 
 run-windows: build-windows
 		@echo "Running $(PROJECT_NAME) in the background..."
