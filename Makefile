@@ -39,7 +39,7 @@ vet:
 	@echo "Running vet..."
 	@$(GO) vet ./...
 
-install-service:
+install:
 	@echo "Installing service..."
 	@SERVICE_FILE="/etc/systemd/system/$(PROJECT_NAME).service"
 	@USER="jenkins"
@@ -59,7 +59,7 @@ install-service:
 	@sudo systemctl daemon-reload
 	@sudo systemctl enable $(PROJECT_NAME)
 
-uninstall-service:
+uninstall:
 	@echo "Uninstalling service..."
 	@SERVICE_FILE="/etc/systemd/system/$(PROJECT_NAME).service"
 	@if systemctl list-units --full -all | grep -Fq $(PROJECT_NAME).service; then \
