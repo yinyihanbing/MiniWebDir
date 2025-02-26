@@ -20,7 +20,7 @@ init:
 		fi
 		@$(GO) mod tidy
 
-build: init build-linux build-windows
+build: init build-linux
 
 build-linux:
 		@echo "Building $(PROJECT_NAME) for Linux..."
