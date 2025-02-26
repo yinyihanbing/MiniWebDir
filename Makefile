@@ -17,6 +17,7 @@ build-common:
 	@mkdir -p $(BUILD_DIR)/
 	@GOOS=$(BUILD_OS) GOARCH=amd64 $(GO) build -tags="$(BUILD_TAGS)" -o $(BINARY_NAME)$(if $(filter windows,$(BUILD_OS)),.exe) $(SRC_DIR)
 	@cp -r www $(BUILD_DIR)/
+	@cp -r scripts/* $(BUILD_DIR)/
 
 test:
 	@echo "Running tests..."
