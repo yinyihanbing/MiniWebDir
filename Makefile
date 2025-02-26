@@ -14,6 +14,8 @@ COVERAGE_FILE := coverage.out
 
 PID_FILE := $(BUILD_DIR)/$(PROJECT_NAME).pid
 
+SERVICE_FILE := /etc/systemd/system/$(PROJECT_NAME).service
+
 init:
 		@echo "Initializing project..."
 		@$(GO) mod tidy
@@ -45,7 +47,32 @@ clean:
 		@echo "Cleaning up..."
 		@rm -rf $(BUILD_DIR) $(COVERAGE_FILE)
 
-run: run-linux
+install-service:
+		@echo "Installing systemd service for $(PROJECT_NAME)..."
+		@echo "[Unit]" > $(SERVICE_FILE)
+		@echo "Description=$(PROJECT_NAME) service" >> $(SERVICE_FILE)
+		@echo "After=network.target" >> $(SERVICE_FILE)
+		@echo "[Service]" >> $(SERVICE_FILE)
+		@echo "ExecStart=$(shell pwd)/$(BINARY_NAME)" >> $(SERVICE_FILE)
+		@echo "Restart=always" >> $(SERVICE_FILE)
+		@echo "User=$(shell whoami)" >> $(SERVICE_FILE)
+		@echo "Group=$(shell whoami)" >> $(SERVICE_FILE)
+		@echo "Environment=GO_ENV=production" >> $(SERVICE_FILE)
+		@echo "WorkingDirectory=$(shell pwd)" >> $(SERVICE_FILE)
+		@echo "[Install]" >> $(SERVICE_FILE)
+		@echo "WantedBy=multi-user.target" >> $(SERVICE_FILE)
+		@systemctl daemon-reload
+		@systemctl enable $(PROJECT_NAME)
+		@systemctl start $(PROJECT_NAME)
+
+uninstall-service:
+		@echo "Uninstalling systemd service for $(PROJECT_NAME)..."
+		@systemctl stop $(PROJECT_NAME)
+		@systemctl disable $(PROJECT_NAME)
+		@rm $(SERVICE_FILE)
+		@systemctl daemon-reload
+
+run: install-service
 
 run-linux: build-linux
 		@echo "Running $(PROJECT_NAME) in the background..."
@@ -55,7 +82,7 @@ run-windows: build-windows
 		@echo "Running $(PROJECT_NAME) in the background..."
 		@cd $(BUILD_DIR) && start $(BUILD_DIR)/$(PROJECT_NAME).exe
 
-stop: stop-linux
+stop: uninstall-service
 
 stop-linux:
 		@echo "Stopping $(PROJECT_NAME)..."
