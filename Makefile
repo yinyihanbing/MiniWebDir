@@ -33,8 +33,8 @@ build-windows:
 		@cp -r www $(BUILD_DIR)/
 
 test:
- 		@echo "Running tests..."
- 		@$(GO) test -v ./...
+		@echo "Running tests..."
+		@$(GO) test -v ./...
 
 coverage:
 		@echo "Running tests with coverage..."
