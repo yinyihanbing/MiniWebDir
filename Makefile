@@ -14,7 +14,6 @@ COVERAGE_FILE := coverage.out
 
 init:
 		@echo "Initializing project..."
-		@$(GO) mod tidy
 
 build: init build-linux
 
