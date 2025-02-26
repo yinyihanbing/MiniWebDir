@@ -49,29 +49,29 @@ clean:
 
 install-service:
 		@echo "Installing systemd service for $(PROJECT_NAME)..."
-		@echo "[Unit]" > $(SERVICE_FILE)
-		@echo "Description=$(PROJECT_NAME) service" >> $(SERVICE_FILE)
-		@echo "After=network.target" >> $(SERVICE_FILE)
-		@echo "[Service]" >> $(SERVICE_FILE)
-		@echo "ExecStart=$(shell pwd)/$(BINARY_NAME)" >> $(SERVICE_FILE)
-		@echo "Restart=always" >> $(SERVICE_FILE)
-		@echo "User=$(shell whoami)" >> $(SERVICE_FILE)
-		@echo "Group=$(shell whoami)" >> $(SERVICE_FILE)
-		@echo "Environment=GO_ENV=production" >> $(SERVICE_FILE)
-		@echo "WorkingDirectory=$(shell pwd)" >> $(SERVICE_FILE)
-		@echo "[Install]" >> $(SERVICE_FILE)
-		@echo "WantedBy=multi-user.target" >> $(SERVICE_FILE)
-		@systemctl daemon-reload
-		@systemctl enable $(PROJECT_NAME)
-		@systemctl start $(PROJECT_NAME)
+		@echo "[Unit]" | sudo tee $(SERVICE_FILE)
+		@echo "Description=$(PROJECT_NAME) service" | sudo tee -a $(SERVICE_FILE)
+		@echo "After=network.target" | sudo tee -a $(SERVICE_FILE)
+		@echo "[Service]" | sudo tee -a $(SERVICE_FILE)
+		@echo "ExecStart=$(shell pwd)/$(BINARY_NAME)" | sudo tee -a $(SERVICE_FILE)
+		@echo "Restart=always" | sudo tee -a $(SERVICE_FILE)
+		@echo "User=$(shell whoami)" | sudo tee -a $(SERVICE_FILE)
+		@echo "Group=$(shell whoami)" | sudo tee -a $(SERVICE_FILE)
+		@echo "Environment=GO_ENV=production" | sudo tee -a $(SERVICE_FILE)
+		@echo "WorkingDirectory=$(shell pwd)" | sudo tee -a $(SERVICE_FILE)
+		@echo "[Install]" | sudo tee -a $(SERVICE_FILE)
+		@echo "WantedBy=multi-user.target" | sudo tee -a $(SERVICE_FILE)
+		@sudo systemctl daemon-reload
+		@sudo systemctl enable $(PROJECT_NAME)
+		@sudo systemctl start $(PROJECT_NAME)
 
 uninstall-service:
 		@echo "Uninstalling systemd service for $(PROJECT_NAME)..."
 		@if systemctl list-units --full -all | grep -Fq $(PROJECT_NAME).service; then \
-				systemctl stop $(PROJECT_NAME); \
-				systemctl disable $(PROJECT_NAME); \
-				rm $(SERVICE_FILE); \
-				systemctl daemon-reload; \
+				sudo systemctl stop $(PROJECT_NAME); \
+				sudo systemctl disable $(PROJECT_NAME); \
+				sudo rm $(SERVICE_FILE); \
+				sudo systemctl daemon-reload; \
 		else \
 				echo "$(PROJECT_NAME) service not found."; \
 		fi
