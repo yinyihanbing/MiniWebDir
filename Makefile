@@ -14,10 +14,6 @@ COVERAGE_FILE := coverage.out
 
 init:
 		@echo "Initializing project..."
-		@if ! [ -x "$(command -v $(GO))" ]; then \
-			echo "Go is not installed. Please install Go."; \
-			exit 1; \
-		fi
 		@$(GO) mod tidy
 
 build: init build-linux
