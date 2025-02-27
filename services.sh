@@ -48,7 +48,11 @@ case $ACTION in
 		fi
 		;;
 	stop)
-		sudo systemctl stop ${PROJECT_NAME}
+		if systemctl list-units --full -all | grep -Fq ${PROJECT_NAME}.service; then
+			sudo systemctl stop ${PROJECT_NAME}
+		else
+			echo "${PROJECT_NAME} service not found."
+		fi
 		;;
 	*)
 		echo "Usage: $0 {install|uninstall|start|stop}"
