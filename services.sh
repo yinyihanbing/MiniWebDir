@@ -41,11 +41,7 @@ case $ACTION in
 		fi
 		;;
 	start)
-		if systemctl list-units --full -all | grep -Fq ${PROJECT_NAME}.service; then
-			sudo systemctl start ${PROJECT_NAME}
-		else
-			echo "${PROJECT_NAME} service not found. Please install it first."
-		fi
+		sudo systemctl start ${PROJECT_NAME}
 		;;
 	stop)
 		if systemctl list-units --full -all | grep -Fq ${PROJECT_NAME}.service; then
