@@ -1,11 +1,11 @@
 #!/bin/bash
 
 ACTION=$1
+
 PROJECT_NAME="ggweb"
-BUILD_DIR="bin"
-BINARY_NAME="${BUILD_DIR}/${PROJECT_NAME}"
 SERVICE_FILE="/etc/systemd/system/${PROJECT_NAME}.service"
-CURRENT_DIR=$(pwd)
+WORKING_DIRECTORY="$(pwd)/bin/"
+APP_PATH="${WORKING_DIRECTORY}/${PROJECT_NAME}"
 
 case $ACTION in
 	install)
@@ -18,12 +18,12 @@ case $ACTION in
 		echo "Description=${PROJECT_NAME} service" | sudo tee -a ${SERVICE_FILE}
 		echo "After=network.target" | sudo tee -a ${SERVICE_FILE}
 		echo "[Service]" | sudo tee -a ${SERVICE_FILE}
-		echo "ExecStart=${CURRENT_DIR}/${BINARY_NAME}" | sudo tee -a ${SERVICE_FILE}
+		echo "ExecStart=${APP_PATH}" | sudo tee -a ${SERVICE_FILE}
 		echo "Restart=always" | sudo tee -a ${SERVICE_FILE}
 		echo "User=jenkins" | sudo tee -a ${SERVICE_FILE}
 		echo "Group=jenkins" | sudo tee -a ${SERVICE_FILE}
 		echo "Environment=GO_ENV=production" | sudo tee -a ${SERVICE_FILE}
-		echo "WorkingDirectory=${CURRENT_DIR}/${BUILD_DIR}" | sudo tee -a ${SERVICE_FILE}
+		echo "WorkingDirectory=${WORKING_DIRECTORY}" | sudo tee -a ${SERVICE_FILE}
 		echo "[Install]" | sudo tee -a ${SERVICE_FILE}
 		echo "WantedBy=multi-user.target" | sudo tee -a ${SERVICE_FILE}
 
