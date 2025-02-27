@@ -6,6 +6,8 @@ PROJECT_NAME="ggweb"
 SERVICE_FILE="/etc/systemd/system/${PROJECT_NAME}.service"
 WORKING_DIRECTORY="$(pwd)/bin/"
 APP_PATH="${WORKING_DIRECTORY}/${PROJECT_NAME}"
+USER="jenkins"
+GROUP="jenkins"
 
 case $ACTION in
 	install)
@@ -20,8 +22,8 @@ case $ACTION in
 		echo "[Service]" | sudo tee -a ${SERVICE_FILE}
 		echo "ExecStart=${APP_PATH}" | sudo tee -a ${SERVICE_FILE}
 		echo "Restart=always" | sudo tee -a ${SERVICE_FILE}
-		echo "User=jenkins" | sudo tee -a ${SERVICE_FILE}
-		echo "Group=jenkins" | sudo tee -a ${SERVICE_FILE}
+		echo "User=${USER}" | sudo tee -a ${SERVICE_FILE}
+		echo "Group=${GROUP}" | sudo tee -a ${SERVICE_FILE}
 		echo "Environment=GO_ENV=production" | sudo tee -a ${SERVICE_FILE}
 		echo "WorkingDirectory=${WORKING_DIRECTORY}" | sudo tee -a ${SERVICE_FILE}
 		echo "[Install]" | sudo tee -a ${SERVICE_FILE}
