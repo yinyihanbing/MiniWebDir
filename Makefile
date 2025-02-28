@@ -6,7 +6,7 @@ BINARY_NAME := $(BUILD_DIR)/$(PROJECT_NAME)
 SRC_DIR := .
 COVERAGE_FILE := coverage.out
 
-build: clean build-linux
+build: build-linux
 build-linux: BUILD_OS := linux
 build-windows: BUILD_OS := windows
 build-linux build-windows: build-common
