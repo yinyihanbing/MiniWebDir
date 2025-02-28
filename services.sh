@@ -4,7 +4,7 @@ ACTION=$1
 
 PROJECT_NAME="ggweb"
 SERVICE_FILE="/etc/systemd/system/${PROJECT_NAME}.service"
-WORKING_DIRECTORY="/opt/ggweb/"
+WORKING_DIRECTORY="$(pwd)/bin/"
 APP_PATH="${WORKING_DIRECTORY}/${PROJECT_NAME}"
 USER="jenkins"
 GROUP="jenkins"
