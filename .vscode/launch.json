@@ -1,0 +1,17 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "mini_web_dir",
+			"type": "go",
+			"request": "launch",
+			"mode": "auto",
+			"program": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}",
+			"args": [
+				"--port=8181",
+				"--wwwDir=www"
+			],
+		}
+	]
+}
